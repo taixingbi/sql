@@ -92,7 +92,7 @@ from  Scores s1
 order by Score desc
 
 ----------------------------------------------------------------------------------------------------------------------------------
-#### group order
+#### group 
 ----------------------------------------------------------------------------------------------------------------------------------
 
 182. Duplicate Emails        
@@ -117,6 +117,10 @@ group by Email having count(Email) > 1
             TIV_2015 in (select TIV_2015 from insurance group by TIV_2015 having count(*) > 1) 
                 and 
             concat(LAT, LON) in (select concat(LAT, LON) from insurance group by LAT, LON having count(*) = 1)
+
+----------------------------------------------------------------------------------------------------------------------------------
+#### order
+----------------------------------------------------------------------------------------------------------------------------------
 
 596. Classes More Than 5 Students
 https://leetcode.com/problems/classes-more-than-5-students/description/

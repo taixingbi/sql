@@ -1,4 +1,5 @@
 
+#### basic 
 595. Big Countries
 https://leetcode.com/problems/big-countries/description/
 SELECT name, area, population 

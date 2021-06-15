@@ -196,7 +196,7 @@ order by a.seat_id
 627. Swap Salary
 https://leetcode.com/problems/swap-salary/description/
 update salary
-set sex = if(name='A', 'f', 'm')
+set sex = if(sex='m', 'f', 'm')
 
 610. Triangle Judgement
 https://leetcode.com/problems/triangle-judgement/description/

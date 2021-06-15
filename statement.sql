@@ -32,7 +32,7 @@ select(
 ) as SecondHighestSalary
 
 ----------------------------------------------------------------------------------------------------------------------------------
-#### from multi-table
+#### multi-table
 ----------------------------------------------------------------------------------------------------------------------------------
 613. Shortest Distance in a Line
 https://leetcode.com/problems/shortest-distance-in-a-line/description/
@@ -89,3 +89,100 @@ select Score,
     (select count(distinct s2.Score) from Scores s2 where s2.score >= s1.score) as Rank
 from  Scores s1
 order by Score desc
+
+----------------------------------------------------------------------------------------------------------------------------------
+#### group order
+----------------------------------------------------------------------------------------------------------------------------------
+
+182. Duplicate Emails        
+https://leetcode.com/problems/duplicate-emails/description/
+select Email 
+from Person 
+group by Email having count(Email) > 1
+
+        570. Managers with at Least 5 Direct Reports
+        https://leetcode.com/problems/managers-with-at-least-5-direct-reports/description/
+        select Name 	  
+        from Employee
+        where Id in 
+            (select ManagerId 
+            from Employee 
+            group by ManagerId having count(ManagerId)>4 )
+
+        585. Investments in 2016
+        https://leetcode.com/problems/investments-in-2016/description/
+        select sum(TIV_2016) as TIV_2016  from insurance
+        where 
+            TIV_2015 in (select TIV_2015 from insurance group by TIV_2015 having count(*) > 1) 
+                and 
+            concat(LAT, LON) in (select concat(LAT, LON) from insurance group by LAT, LON having count(*) = 1)
+
+596. Classes More Than 5 Students
+https://leetcode.com/problems/classes-more-than-5-students/description/
+select class
+from courses
+group by class having count(distinct student)>4
+
+    178. Rank Scores
+    https://leetcode.com/problems/rank-scores/
+    select Score,
+        (select count(distinct s2.Score) from Scores s2 where s2.score >= s1.score) as Rank
+    from  Scores s1
+    order by Score desc
+    
+        602. Friend Requests II: Who Has the Most Friends
+        # Write your MySQL query statement below
+        select ids as id, cnt as num
+        from(
+                select ids, count(*) as cnt from (
+                        select requester_id as ids from request_accepted 
+                        union all#not del duplicate
+                        select accepter_id from request_accepted    
+                ) as tb1 group by ids 
+        ) as tb2 order by cnt desc limit 1
+
+619. Biggest Single Number
+https://leetcode.com/problems/biggest-single-number/description/
+select max(num) as num
+from    
+    (select num
+    from number
+    group by num having count(*)=1) as t
+
+586. Customer Placing the Largest Number of Orders
+https://leetcode.com/problems/customer-placing-the-largest-number-of-orders/description/
+select customer_number 
+from orders 
+group by customer_number 
+order by count(*) desc limit 1
+
+620. Not Boring Movies
+https://leetcode.com/problems/not-boring-movies/description/
+select *
+from cinema
+where id%2=1 and  description!='boring' 
+order by rating desc
+
+603. Consecutive Available Seats
+https://leetcode.com/problems/consecutive-available-seats/description/
+select distinct a.seat_id 
+from cinema a, cinema b
+where abs(a.seat_id - b.seat_id)=1 and a.free= 1 and b.free= 1
+order by a.seat_id
+
+176. Second Highest Salary  *
+https://leetcode.com/problems/second-highest-salary/description/
+select max(Salary) as SecondHighestSalary #select if(count(Salary) >0, Salary, null) as SecondHighestSalary 
+from (select distinct Salary from Employee order by Salary desc limit 1,1) as t
+
+    177. Nth Highest Salary
+    https://leetcode.com/problems/nth-highest-salary/description/
+    CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+    BEGIN
+        set N = N-1;
+        RETURN (
+        # Write your MySQL query statement below.
+            select distinct Salary from Employee order by Salary desc limit N, 1
+        );
+    END
+

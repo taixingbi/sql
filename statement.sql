@@ -26,6 +26,7 @@ from Customers
 where Id not in   (select CustomerId  from Orders)
 
 176. Second Highest Salary *
+https://leetcode.com/problems/second-highest-salary/
 select(
     select distinct Salary
     from Employee

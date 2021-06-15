@@ -225,6 +225,12 @@ select name, bonus
 from Employee left join Bonus on Employee.empId = Bonus.empId
 where bonus < 1000 or bonus is null
 
+175. Combine Two Tables
+https://leetcode.com/problems/combine-two-tables/
+select FirstName, LastName, City, State
+from Person left join Address on Person.PersonId = Address.PersonId
+
+
 183. Customers Who Never Order
 https://leetcode.com/problems/customers-who-never-order/description/
 select Name as Customers

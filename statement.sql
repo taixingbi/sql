@@ -186,3 +186,115 @@ from (select distinct Salary from Employee order by Salary desc limit 1,1) as t
         );
     END
 
+----------------------------------------------------------------------------------------------------------------------------------
+#### if
+----------------------------------------------------------------------------------------------------------------------------------
+
+627. Swap Salary
+https://leetcode.com/problems/swap-salary/description/
+update salary
+set sex = if(name='A', 'f', 'm')
+
+610. Triangle Judgement
+https://leetcode.com/problems/triangle-judgement/description/
+select *, if(x+y-z>0 and x-y+z>0 and -x+y+z>0, 'Yes', 'No') as 'triangle'
+from triangle 
+
+619. Biggest Single Number
+https://leetcode.com/problems/friend-requests-i-overall-acceptance-rate/description/
+select
+round(
+    ifnull(
+        (select count(*) from (select distinct requester_id, accepter_id from request_accepted) as A_table)
+        /
+        (select count(*) from (select distinct sender_id, send_to_id from friend_request) as B_table)
+        ,0) 
+    ,2
+    ) 
+as accept_rate;
+
+----------------------------------------------------------------------------------------------------------------------------------
+#### join
+----------------------------------------------------------------------------------------------------------------------------------
+577. Employee Bonus
+https://leetcode.com/problems/employee-bonus/description/
+select name, bonus
+from Employee left join Bonus on Employee.empId = Bonus.empId
+where bonus < 1000 or bonus is null
+
+183. Customers Who Never Order
+https://leetcode.com/problems/customers-who-never-order/description/
+select Name as Customers
+from Customers left join Orders on Customers.Id= Orders.CustomerId
+where CustomerId is null
+
+    580.Count Student Number in Departments
+    https://leetcode.com/problems/count-student-number-in-departments/
+    # Write your MySQL query statement below
+    select dept_name, count(student_id) as student_number 
+    from 
+        department left join student on department.dept_id = student.dept_id 
+    group by department.dept_name
+    order by student_number desc, department.dept_name
+    
+    574. Winning Candidate
+    https://leetcode.com/problems/winning-candidate/
+    # Write your MySQL query statement below
+    SELECT
+        name AS 'Name'
+    FROM
+        Candidate
+            JOIN
+        (
+            SELECT  Candidateid
+            FROM    Vote
+            GROUP BY    Candidateid
+            ORDER BY COUNT(*) DESC LIMIT 1
+        ) AS winner
+    WHERE   Candidate.id = winner.Candidateid
+
+
+
+607. Sales Person
+https://leetcode.com/problems/sales-person/description/
+select name 
+from salesperson
+where sales_id not in 
+    ( 
+    select sales_id   
+    from company join orders 
+    on company.com_id= orders.com_id 
+    where name = 'RED' 
+    )
+
+    184. Department Highest Salary *
+    https://leetcode.com/problems/department-highest-salary/description/    
+    select 
+        Department.Name as Department, 
+        Employee.Name as Employee, 
+        Salary #Employee.Salary as Salary 
+    from 
+        Department  
+            left join 
+        Employee  on Department.Id = Employee.DepartmentId 
+
+    where (Department.Id, Employee.Salary ) 
+            in 
+          (select DepartmentId, Max(Salary) from Employee group by DepartmentId)
+
+608. Tree Node
+https://leetcode.com/problems/tree-node/description/
+select id, 'Root' as Type 
+from tree 
+where p_id is null
+    union
+select id, 'Leaf' as Type 
+from tree 
+where id not in ( select distinct p_id from tree where p_id is not null) and p_id is not null
+    union
+select id, 'Inner' as Type 
+from tree 
+where id in (select distinct p_id from tree where p_id is not null) and p_id is not null
+order by id
+
+

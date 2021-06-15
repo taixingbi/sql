@@ -176,10 +176,7 @@ from cinema a, cinema b
 where abs(a.seat_id - b.seat_id)=1 and a.free= 1 and b.free= 1
 order by a.seat_id
 
-176. Second Highest Salary  *
-https://leetcode.com/problems/second-highest-salary/description/
-select max(Salary) as SecondHighestSalary #select if(count(Salary) >0, Salary, null) as SecondHighestSalary 
-from (select distinct Salary from Employee order by Salary desc limit 1,1) as t
+
 
     177. Nth Highest Salary
     https://leetcode.com/problems/nth-highest-salary/description/

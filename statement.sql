@@ -23,7 +23,8 @@ from Customers
 where Id not in   (select CustomerId  from Orders)
 
 176. Second Highest Salary *
-https://leetcode.com/problems/second-highest-salary/description/
-select max(Salary) as SecondHighestSalary 
-from Employee
-where Salary < (select max(Salary) from Employee)
+select(
+    select distinct Salary
+    from Employee
+    order by Salary desc limit 1, 1
+) as SecondHighestSalary
